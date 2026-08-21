@@ -6,10 +6,13 @@
 
 @if ($favicon = setting('site.favicon'))
     <link rel="icon" href="{{ asset('storage/'.$favicon) }}">
+@else
+    <link rel="icon" type="image/png" href="{{ asset('favicon-96x96.png') }}" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 @endif
-{{-- No built-in default: img/ui/favicon.png is the old template's icon, not
-     this site's, so there's nothing to fall back to until one is uploaded
-     via Settings → Company. --}}
 
 <link rel="stylesheet" href="{{ asset('css/plugins/bootstrap-grid.css') }}">
 <link rel="stylesheet" href="{{ asset('css/plugins/swiper.css') }}">
