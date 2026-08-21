@@ -79,7 +79,9 @@
                                         <div class="mil-select-button mil-br-md mil-bg-m-3 mil-m-1">
                                             <span class="mil-selected-value" data-default-label="ZIP code">ZIP code</span>
                                         </div>
-                                        <ul class="mil-select-dropdown mil-scrollable mil-br-md">
+                                        {{-- data-lenis-prevent: without it, Lenis (smooth-scroll) hijacks
+                                             the wheel event here too and scrolls the page instead of this list. --}}
+                                        <ul class="mil-select-dropdown mil-scrollable mil-br-md" data-lenis-prevent>
                                             @foreach (\App\Models\ServiceArea::where('is_active', true)->orderBy('area')->get() as $serviceArea)
                                                 <li>
                                                     <input type="radio" id="zip-{{ $serviceArea->zip }}" name="zip" value="{{ $serviceArea->zip }}">
