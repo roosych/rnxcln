@@ -8,7 +8,7 @@ ARG GID=1000
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         unzip \
-        libpq-dev \
+        default-mysql-client \
         libzip-dev \
         libicu-dev \
         libpng-dev \
@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" \
-        pdo_pgsql \
-        pgsql \
+        pdo_mysql \
+        mysqli \
         zip \
         intl \
         gd \

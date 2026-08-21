@@ -1,7 +1,7 @@
 # RYNEXClean
 
 Marketing site for a Chicago carpet, rug and upholstery cleaning company.
-Laravel 13 + Blade, PostgreSQL, served by nginx + PHP-FPM in Docker.
+Laravel 13 + Blade, MySQL/MariaDB, served by nginx + PHP-FPM in Docker.
 
 Ported from the static `cleanfix` HTML build: the five pages were split into a
 layout, partials and reusable components, and the repeated content was lifted
@@ -25,14 +25,14 @@ npm install && npm run build
 
 Site: <http://localhost:8080>
 Admin panel: <http://localhost:8080/admin>
-Postgres: `localhost:5433` (5433 on the host so it does not clash with a local 5432)
+MariaDB: `localhost:3307` (3307 on the host so it does not clash with a local 3306)
 
 Override ports and credentials through the environment before `up`:
 
 | Variable       | Default      |
 | -------------- | ------------ |
 | `APP_PORT`     | `8080`       |
-| `DB_PORT_HOST` | `5433`       |
+| `DB_PORT_HOST` | `3307`       |
 | `DB_DATABASE`  | `rynexclean` |
 | `DB_USERNAME`  | `rynexclean` |
 | `DB_PASSWORD`  | `secret`     |
@@ -42,7 +42,7 @@ Useful commands:
 ```bash
 docker compose logs -f app
 docker compose exec app php artisan view:clear
-docker compose exec postgres psql -U rynexclean -d rynexclean
+docker compose exec mariadb mysql -u rynexclean -psecret rynexclean
 ```
 
 ## Layout of the views

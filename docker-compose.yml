@@ -12,12 +12,12 @@ services:
     volumes:
       - .:/var/www/html
     depends_on:
-      postgres:
+      mariadb:
         condition: service_healthy
     environment:
-      DB_CONNECTION: pgsql
-      DB_HOST: postgres
-      DB_PORT: 5432
+      DB_CONNECTION: mysql
+      DB_HOST: mariadb
+      DB_PORT: 3306
       DB_DATABASE: ${DB_DATABASE:-rynexclean}
       DB_USERNAME: ${DB_USERNAME:-rynexclean}
       DB_PASSWORD: ${DB_PASSWORD:-secret}
@@ -33,25 +33,26 @@ services:
     depends_on:
       - app
 
-  postgres:
-    image: postgres:17-alpine
+  mariadb:
+    image: mariadb:11
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-rynexclean}
-      POSTGRES_USER: ${DB_USERNAME:-rynexclean}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+      MARIADB_DATABASE: ${DB_DATABASE:-rynexclean}
+      MARIADB_USER: ${DB_USERNAME:-rynexclean}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-secret}
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
     ports:
-      # Host port is 5433 so it does not clash with a local postgres on 5432.
-      # Bound to localhost only — this is for host-side `psql`/tinker access
+      # Host port is 3307 so it does not clash with a local mysql on 3306.
+      # Bound to localhost only — this is for host-side `mysql`/tinker access
       # during dev, not for exposing the DB on the public network in prod.
-      - "127.0.0.1:${DB_PORT_HOST:-5433}:5432"
+      - "127.0.0.1:${DB_PORT_HOST:-3307}:3306"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-rynexclean} -d ${DB_DATABASE:-rynexclean}"]
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
       timeout: 5s
       retries: 10
 
 volumes:
-  pgdata:
+  dbdata:

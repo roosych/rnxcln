@@ -29,8 +29,8 @@ class ServiceController extends Controller
     {
         // Filtering out empty `items` happens in PHP rather than SQL: an
         // empty items list is stored as the JSON string '[]', not SQL NULL,
-        // and there's no portable raw-SQL way to test for that across both
-        // Postgres (dev) and MySQL (prod) without driver-specific syntax.
+        // and testing for that needs driver-specific raw SQL (this bit us
+        // once already when dev ran Postgres and prod ran MySQL).
         return Service::where('is_active', true)
             ->where('id', '!=', $service->id)
             ->orderByRaw('section = ? desc', [$service->section])
