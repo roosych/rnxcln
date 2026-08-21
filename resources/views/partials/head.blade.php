@@ -43,12 +43,15 @@
     $metaTitle = $pageTitle ?? setting('site.name');
     $metaDescription = $service?->meta_description ?: ($seo?->meta_description ?? '');
     $canonical = $seo?->canonical_url ?? url()->current();
-    // Priority: an explicitly uploaded per-page OG image, then the service's
-    // own photo on its detail page (services.show has no PageSeo row so
-    // $seo is always null there), then the site logo as a last resort.
+    // Priority: an explicitly uploaded per-page OG image, then a service's
+    // own dedicated OG image (services.show has no PageSeo row so $seo is
+    // always null there), then its regular content photo (not OG-sized,
+    // may crop oddly in a share preview), then the site logo as a last resort.
     $ogImage = $seo?->og_image
         ? asset('storage/'.$seo->og_image)
-        : ($service?->image ? $service->imageUrl() : asset('img/ui/logo2.png'));
+        : ($service?->og_image
+            ? $service->ogImageUrl()
+            : ($service?->image ? $service->imageUrl() : asset('img/ui/logo2.png')));
 @endphp
 
 <title>{{ $pageTitle ? $pageTitle.' — '.setting('site.name') : setting('site.name') }}</title>

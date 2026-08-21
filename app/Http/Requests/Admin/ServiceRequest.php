@@ -58,6 +58,7 @@ class ServiceRequest extends FormRequest
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:4096'],
             'before_image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:4096'],
             'after_image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:4096'],
+            'og_image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:4096'],
             'steps' => ['nullable', 'array'],
             'steps.*.id' => ['nullable', 'integer'],
             'steps.*.title' => ['nullable', 'string', 'max:200'],

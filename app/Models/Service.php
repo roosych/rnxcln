@@ -44,6 +44,7 @@ class Service extends Model
         'meta_description',
         'before_image',
         'after_image',
+        'og_image',
         'sort_order',
         'is_active',
         'is_featured',
@@ -86,6 +87,11 @@ class Service extends Model
     public function afterImageUrl(): string
     {
         return $this->resolveUploadedUrl($this->after_image);
+    }
+
+    public function ogImageUrl(): string
+    {
+        return $this->resolveUploadedUrl($this->og_image);
     }
 
     private function resolveUploadedUrl(?string $path): string

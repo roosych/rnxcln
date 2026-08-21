@@ -202,6 +202,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="admin-card">
+                            <div class="admin-card-header"><h2>Social sharing image</h2></div>
+                            <div class="admin-card-body">
+                                @if ($service->og_image)
+                                    <div style="margin-bottom:10px;"><img src="{{ $service->ogImageUrl() }}" alt="" style="max-width:100%;border-radius:8px;"></div>
+                                @endif
+                                <input type="file" name="og_image" class="form-control @error('og_image') is-invalid @enderror" accept="image/*">
+                                <div class="admin-form-hint">Shown when this page's link is shared on Facebook, WhatsApp, etc. Recommended size ~1200×630 — if left blank, the photo above is used instead, which may get cropped oddly in a share preview.</div>
+                                @error('og_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
                     </div>
 
                 </div>

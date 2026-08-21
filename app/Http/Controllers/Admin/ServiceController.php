@@ -23,7 +23,7 @@ class ServiceController extends Controller
         'home-office' => 'Wide card with item count, no photo — always shown on Services.',
     ];
 
-    private const IMAGE_FIELDS = ['image', 'before_image', 'after_image'];
+    private const IMAGE_FIELDS = ['image', 'before_image', 'after_image', 'og_image'];
 
     public function index(): View
     {
