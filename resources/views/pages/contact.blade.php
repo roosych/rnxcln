@@ -145,8 +145,11 @@
             <x-features :items="[
                 [
                     'icon'  => 'img/ui/icons/14.png',
-                    'title' => 'Phone',
-                    'lines' => ['<a href=\'tel:'.setting('site.phone_e164').'\' data-no-swup>'.setting('site.phone').'</a>'],
+                    'title' => 'Contact',
+                    'lines' => [
+                        '<a href=\'tel:'.setting('site.phone_e164').'\' data-no-swup>'.setting('site.phone').'</a>',
+                        '<a href=\'mailto:'.setting('site.email').'\' data-no-swup>'.setting('site.email').'</a>',
+                    ],
                 ],
                 [
                     'icon'  => 'img/ui/icons/15.png',
