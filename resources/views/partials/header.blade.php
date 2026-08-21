@@ -42,9 +42,12 @@
                         @endphp
                         <li @class(['mil-has-children' => $hasChildren, 'mil-current' => $active])>
                             {{-- No href when it has a dropdown — it's not a page link, the
-                                 submenu (opened on :hover of this <li>) is the navigation. --}}
+                                 submenu (opened on :hover of this <li>) is the navigation.
+                                 data-no-swup matters here too: swup's Link.getAddress() turns
+                                 an empty pathname into "/", so without this a click here gets
+                                 hijacked into a SPA-navigation to the homepage. --}}
                             @if ($hasChildren)
-                                <a>{{ $item['label'] }}</a>
+                                <a data-no-swup>{{ $item['label'] }}</a>
                             @else
                                 <a href="{{ route($item['route']) }}">{{ $item['label'] }}</a>
                             @endif
