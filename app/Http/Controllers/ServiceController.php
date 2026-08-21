@@ -27,15 +27,17 @@ class ServiceController extends Controller
      */
     private function otherServices(Service $service): Collection
     {
+        // Filtering out empty `items` happens in PHP rather than SQL: an
+        // empty items list is stored as the JSON string '[]', not SQL NULL,
+        // and there's no portable raw-SQL way to test for that across both
+        // Postgres (dev) and MySQL (prod) without driver-specific syntax.
         return Service::where('is_active', true)
             ->where('id', '!=', $service->id)
-            // items with nothing in them are stored as the JSON string '[]',
-            // not SQL NULL, so whereNotNull() alone wouldn't catch them.
-            ->whereNotNull('items')
-            ->whereRaw("items::text != '[]'")
             ->orderByRaw('section = ? desc', [$service->section])
             ->orderBy('sort_order')
-            ->limit(4)
-            ->get();
+            ->get()
+            ->filter(fn (Service $other) => ! empty($other->items))
+            ->take(4)
+            ->values();
     }
 }
