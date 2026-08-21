@@ -107,8 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     ------------------------------------------- */
     const milRightButtonsFrame = document.querySelector('.mil-right-buttons-frame');
-    const milOpenWindow = document.querySelector('.mil-open-window');
-    const milOrderCallWindow = document.querySelector('.mil-order-call-window');
     const milBackToTop = document.querySelector('.mil-back-to-top');
 
     if (milRightButtonsFrame && milBackToTop) {
@@ -131,15 +129,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    if (milOpenWindow && milOrderCallWindow) {
-        milOpenWindow.addEventListener('click', function () {
-            this.classList.toggle('mil-active');
-            milOrderCallWindow.classList.toggle('mil-active');
-        });
-    }
-
     /* -------------------------------------------
-    
+
     sliders
     
     ------------------------------------------- */
@@ -457,7 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 statusEl.textContent = text;
                 statusEl.classList.toggle('mil-hidden', !text);
                 statusEl.classList.toggle('mil-error-1', isError);
-                statusEl.classList.toggle('mil-a-1', !isError);
+                statusEl.classList.toggle('mil-success-1', !isError);
             };
 
             const clearFieldErrors = () => {

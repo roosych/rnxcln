@@ -1794,6 +1794,10 @@ text color
   color: #ff5c5c;
 }
 
+.mil-success-1 {
+  color: #2ecc71;
+}
+
 .mil-hover-bri-105:hover {
   -webkit-filter: brightness(105%);
           filter: brightness(105%);

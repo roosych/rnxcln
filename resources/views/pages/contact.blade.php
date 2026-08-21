@@ -32,7 +32,7 @@
                             <h3 class="mil-fs-32 mil-tac mil-lh-140 mil-mb-60">{!! setting('contact-page.form_heading', 'We accept your requests <br>24 hours a day, 7 days a week') !!}</h3>
                         </div>
 
-                        <p class="mil-fs-18 mil-a-1 mil-mb-30" data-form-status @class(['mil-hidden' => ! session('status')])>{{ session('status') }}</p>
+                        <p class="mil-fs-18 mil-success-1 mil-mb-30" data-form-status @class(['mil-hidden' => ! session('status')])>{{ session('status') }}</p>
 
                         <form action="{{ route('contact.send') }}" method="POST" data-ajax>
                             @csrf

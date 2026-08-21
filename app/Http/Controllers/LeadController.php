@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CallbackRequest;
 use App\Http\Requests\ContactRequest;
 use App\Mail\NewLeadReceived;
 use App\Models\Lead;
@@ -49,22 +48,7 @@ class LeadController extends Controller
         return back()->with('status', $message)->withFragment('form');
     }
 
-    /** Short "order a call" widget pinned to the right edge of every page. */
-    public function callback(CallbackRequest $request): RedirectResponse
-    {
-        $response = back()->with('status', 'Thanks — we will call you back today.');
-
-        if ($this->isSpam($request)) {
-            return $response;
-        }
-
-        $lead = Lead::create($request->validated() + ['source' => Lead::SOURCE_CALLBACK]);
-        $this->notify($lead);
-
-        return $response;
-    }
-
-    private function isSpam(ContactRequest|CallbackRequest $request): bool
+    private function isSpam(ContactRequest $request): bool
     {
         return $request->filled('website');
     }
