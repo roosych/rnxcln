@@ -30,9 +30,6 @@
                         @foreach ($reviews as $review)
                             <div class="swiper-slide">
                                 <div class="mil-review-frame mil-tac" data-swiper-parallax="-600" data-swiper-parallax-opacity="0" data-swiper-parallax-scale=".6">
-                                    @if ($review['image'])
-                                        <img src="{{ asset('storage/'.$review['image']) }}" alt="{{ $review['name'] }}" class="mil-br-f mil-up mil-mb-15" style="width: 6rem; height: 6rem; object-fit: cover;">
-                                    @endif
                                     <h5 class="mil-fs-28 mil-m-1 mil-up mil-mb-15">{{ $review['name'] }}</h5>
                                     <p class="mil-m-1 mil-up-text mil-up mil-mb-40">{{ $review['location'] }}</p>
                                     <div class="mil-fs-72 mil-a-2 mil-lh-100 mil-up" style="transform: translateX(-1rem)"><i>"</i></div>
