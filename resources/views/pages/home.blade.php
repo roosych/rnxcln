@@ -80,8 +80,8 @@
     @php $n++; @endphp
     <x-about-boxes :number="$n" />
 
-    {{-- reviews — hidden if nothing's active, no empty section on the page --}}
-    @php $reviews = \App\Models\Review::where('is_active', true)->orderBy('sort_order')->get(); @endphp
+    {{-- reviews — hidden if nothing's published, no empty section on the page --}}
+    @php $reviews = \App\Models\Review::query()->published()->orderByDesc('featured')->orderBy('sort_order')->orderByDesc('review_date')->get(); @endphp
     @if ($reviews->isNotEmpty())
         @php $n++; @endphp
         <x-reviews :number="$n" :items="$reviews" />

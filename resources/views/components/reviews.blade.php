@@ -7,7 +7,7 @@
 ])
 
 @php
-    $reviews = $items ?? \App\Models\Review::query()->where('is_active', true)->orderBy('sort_order')->get();
+    $reviews = $items ?? \App\Models\Review::query()->published()->orderByDesc('featured')->orderBy('sort_order')->orderByDesc('review_date')->get();
 @endphp
 
 <div class="{{ $padding }}" id="reviews">
@@ -30,10 +30,10 @@
                         @foreach ($reviews as $review)
                             <div class="swiper-slide">
                                 <div class="mil-review-frame mil-tac" data-swiper-parallax="-600" data-swiper-parallax-opacity="0" data-swiper-parallax-scale=".6">
-                                    <h5 class="mil-fs-28 mil-m-1 mil-up mil-mb-15">{{ $review['name'] }}</h5>
+                                    <h5 class="mil-fs-28 mil-m-1 mil-up mil-mb-15">{{ $review['author_name'] }}</h5>
                                     <p class="mil-m-1 mil-up-text mil-up mil-mb-40">{{ $review['location'] }}</p>
                                     <div class="mil-fs-72 mil-a-2 mil-lh-100 mil-up" style="transform: translateX(-1rem)"><i>"</i></div>
-                                    <p class="mil-fs-22 mil-m-1 mil-lh-200 mil-up">{{ $review['text'] }}</p>
+                                    <p class="mil-fs-22 mil-m-1 mil-lh-200 mil-up">{{ $review['content'] }}</p>
                                 </div>
                             </div>
                         @endforeach

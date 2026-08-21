@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\FacebookReviewSourceController;
 use App\Http\Controllers\Admin\FaqItemController;
+use App\Http\Controllers\Admin\GoogleReviewSourceController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\ProcessStepController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\ReviewSourceController;
 use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\ServiceAreaController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -42,7 +45,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('process-steps/reorder/{group}', [ProcessStepController::class, 'reorder'])->name('process-steps.reorder');
     Route::resource('process-steps', ProcessStepController::class)->except(['show', 'create'])->parameters(['process-steps' => 'processStep']);
 
-    Route::post('reviews/reorder', [ReviewController::class, 'reorder'])->name('reviews.reorder');
+    Route::post('reviews/{review}/publish', [ReviewController::class, 'publish'])->name('reviews.publish');
+    Route::post('reviews/{review}/feature', [ReviewController::class, 'feature'])->name('reviews.feature');
     Route::resource('reviews', ReviewController::class)->except(['show', 'create']);
 
     Route::resource('service-areas', ServiceAreaController::class)->except(['show', 'create'])->parameters(['service-areas' => 'serviceArea']);
@@ -55,6 +59,28 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('seo/{pageSeo}/edit', [SeoController::class, 'edit'])->name('seo.edit');
         Route::put('seo/{pageSeo}', [SeoController::class, 'update'])->name('seo.update');
         Route::put('seo-analytics', [SeoController::class, 'updateAnalytics'])->name('seo.analytics.update');
+
+        // Credentials/tokens live behind this gate — admin only, unlike the
+        // Reviews CRUD above which any authenticated editor can use.
+        Route::prefix('reviews/sources')->name('reviews.sources.')->group(function () {
+            Route::get('/', [ReviewSourceController::class, 'index'])->name('index');
+            Route::put('interval', [ReviewSourceController::class, 'updateInterval'])->name('interval');
+            Route::post('sync-all', [ReviewSourceController::class, 'syncAll'])->name('sync-all');
+
+            Route::get('google/connect', [GoogleReviewSourceController::class, 'connect'])->name('google.connect');
+            Route::get('google/callback', [GoogleReviewSourceController::class, 'callback'])->name('google.callback');
+            Route::post('google/locations/refresh', [GoogleReviewSourceController::class, 'refreshLocations'])->name('google.locations.refresh');
+            Route::post('google/location', [GoogleReviewSourceController::class, 'selectLocation'])->name('google.location');
+
+            Route::get('facebook/connect', [FacebookReviewSourceController::class, 'connect'])->name('facebook.connect');
+            Route::get('facebook/callback', [FacebookReviewSourceController::class, 'callback'])->name('facebook.callback');
+            Route::post('facebook/page', [FacebookReviewSourceController::class, 'selectPage'])->name('facebook.page');
+
+            Route::put('{reviewSource}/yelp', [ReviewSourceController::class, 'updateYelp'])->name('yelp.update');
+            Route::post('{reviewSource}/test', [ReviewSourceController::class, 'test'])->name('test');
+            Route::post('{reviewSource}/sync', [ReviewSourceController::class, 'sync'])->name('sync');
+            Route::post('{reviewSource}/disconnect', [ReviewSourceController::class, 'disconnect'])->name('disconnect');
+        });
     });
 
     Route::middleware('can:manage-users')->group(function () {

@@ -41,9 +41,14 @@
             <li class="{{ request()->routeIs('admin.process-steps*') ? 'active' : '' }}">
                 <a href="{{ route('admin.process-steps.index') }}"><i class="fas fa-list-ol"></i> Process steps</a>
             </li>
-            <li class="{{ request()->routeIs('admin.reviews*') ? 'active' : '' }}">
+            <li class="{{ request()->routeIs('admin.reviews.index') || request()->routeIs('admin.reviews.edit') ? 'active' : '' }}">
                 <a href="{{ route('admin.reviews.index') }}"><i class="fas fa-star"></i> Reviews</a>
             </li>
+            @can('manage-settings')
+                <li class="{{ request()->routeIs('admin.reviews.sources*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.reviews.sources.index') }}"><i class="fas fa-plug"></i> Review sources</a>
+                </li>
+            @endcan
             <li class="{{ request()->routeIs('admin.service-areas*') ? 'active' : '' }}">
                 <a href="{{ route('admin.service-areas.index') }}"><i class="fas fa-map-marker-alt"></i> Service areas</a>
             </li>
@@ -105,6 +110,10 @@
     <div class="admin-content">
         @if (session('status'))
             <div class="admin-alert admin-alert-success"><i class="fas fa-check-circle"></i> {{ session('status') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="admin-alert admin-alert-error"><i class="fas fa-exclamation-circle"></i> {{ session('error') }}</div>
         @endif
 
         @if ($errors->any())

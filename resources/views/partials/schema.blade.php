@@ -28,7 +28,7 @@
 
     // Only valid with real reviews behind it — an AggregateRating with zero
     // reviews is both meaningless and against Google's structured-data rules.
-    $reviewCount = \App\Models\Review::where('is_active', true)->count();
+    $reviewCount = \App\Models\Review::query()->published()->count();
     // The Company tab's "Rating" field is a free-text display string like
     // "4.9/5.0" — schema.org's ratingValue/bestRating each need a plain
     // number, so split it instead of passing the display string through.

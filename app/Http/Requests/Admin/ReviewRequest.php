@@ -14,13 +14,16 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:120'],
+            'author_name' => ['required', 'string', 'max:120'],
             'location' => ['nullable', 'string', 'max:160'],
-            'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048'],
+            'author_avatar' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048'],
             'remove_image' => ['nullable', 'boolean'],
-            'text' => ['required', 'string'],
-            'sort_order' => ['nullable', 'integer'],
-            'is_active' => ['nullable', 'boolean'],
+            'rating' => ['required', 'integer', 'min:1', 'max:5'],
+            'title' => ['nullable', 'string', 'max:160'],
+            'content' => ['required', 'string'],
+            'review_date' => ['nullable', 'date'],
+            'published' => ['nullable', 'boolean'],
+            'featured' => ['nullable', 'boolean'],
         ];
     }
 }

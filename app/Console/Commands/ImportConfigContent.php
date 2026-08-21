@@ -131,13 +131,26 @@ class ImportConfigContent extends Command
         }
     }
 
+    /**
+     * These are sample/demo reviews, not real customer feedback, so they're
+     * imported unpublished and assigned to the Manual source — same
+     * treatment the 2026_08_21_..._seed_review_sources_...  migration gives
+     * pre-existing rows on an upgrade, kept consistent here for a fresh
+     * install that runs migrations then this command.
+     */
     private function importReviews(): void
     {
+        $manual = \App\Models\ReviewSource::query()->where('provider', \App\Models\ReviewSource::PROVIDER_MANUAL)->first();
+
         foreach (config('reviews') as $i => $review) {
             Review::create([
-                'name' => $review['name'],
+                'review_source_id' => $manual?->id,
+                'author_name' => $review['name'],
                 'location' => $review['location'] ?? null,
-                'text' => $review['text'],
+                'content' => $review['text'],
+                'rating' => 5,
+                'review_date' => now()->toDateString(),
+                'published' => false,
                 'sort_order' => $i,
             ]);
         }

@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    // Reviews sync — see App\Services\Reviews\Providers. Client id/secret
+    // are app-level OAuth credentials (this app's identity to Google/Meta),
+    // not a customer's — safe to keep in .env like any other service key.
+    'google_business' => [
+        'client_id' => env('GOOGLE_BUSINESS_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_BUSINESS_CLIENT_SECRET'),
+    ],
+
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+    ],
+
 ];
