@@ -1,0 +1,57 @@
+name: rynexclean
+
+services:
+
+  app:
+    build:
+      context: ./docker/php
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-rynexclean}
+      DB_USERNAME: ${DB_USERNAME:-rynexclean}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - .:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-rynexclean}
+      POSTGRES_USER: ${DB_USERNAME:-rynexclean}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    ports:
+      # Host port is 5433 so it does not clash with a local postgres on 5432.
+      # Bound to localhost only — this is for host-side `psql`/tinker access
+      # during dev, not for exposing the DB on the public network in prod.
+      - "127.0.0.1:${DB_PORT_HOST:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-rynexclean} -d ${DB_DATABASE:-rynexclean}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
