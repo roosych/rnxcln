@@ -7,5 +7,6 @@
 <script src="{{ asset('js/plugins/swiper.min.js') }}"></script>
 <script src="{{ asset('js/plugins/fancybox.js') }}"></script>
 <script src="{{ asset('js/plugins/flatpickr.min.js') }}"></script>
+<script src="{{ asset('js/plugins/img-comparison-slider.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
 @stack('scripts')

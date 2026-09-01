@@ -5,14 +5,16 @@
 ])
 
 {{--
-    Native theme widget (public/js/main.js initBF(), public/css/style.css
-    .mil-before-and-after) — drag anywhere on the image to reveal the after
-    photo. JS grabs the first .mil-before-and-after/.mil-subject-scraper on
-    the page via querySelector, so only one of these per page.
+    img-comparison-slider (public/js/plugins/img-comparison-slider.js, a
+    <img-comparison-slider> web component) — drag anywhere on the image, or
+    the round handle, to compare. Handles mouse, touch and keyboard (focus
+    it and use arrow keys) natively, so it works the same on mobile as on
+    desktop — unlike the old mousemove/touchmove-on-the-whole-image version
+    this replaced, which gave mobile users no visual hint that the photo
+    was draggable at all.
 --}}
-<div class="mil-before-and-after mil-up">
-    <img class="mil-subject-before" src="{{ $before }}" alt="{{ $alt }} before cleaning">
-    <div class="mil-subject-scraper">
-        <img class="mil-subject-after" src="{{ $after }}" alt="{{ $alt }} after cleaning">
-    </div>
-</div>
+<img-comparison-slider class="mil-ba-slider mil-br-lg mil-up">
+    <img slot="before" src="{{ $before }}" alt="{{ $alt }} before cleaning">
+    <img slot="after" src="{{ $after }}" alt="{{ $alt }} after cleaning">
+    <div slot="handle" class="mil-ba-handle"><i class="far fa-arrows-alt-h"></i></div>
+</img-comparison-slider>
