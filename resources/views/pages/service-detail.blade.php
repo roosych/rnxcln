@@ -63,8 +63,6 @@
     @if (filled($service->text))
         <div class="mil-p-0-15">
             <div class="container">
-                @php $n++; @endphp
-                <x-section-title :number="$n" title="About this service" />
                 <div class="row mil-mb-30">
                     <div class="col-12 mil-up">
                         {{-- Plain-text field from the admin form (not Trix) — escape it,
