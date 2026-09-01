@@ -69,7 +69,7 @@
                     <div class="col-lg-8 mil-up">
                         {{-- Plain-text field from the admin form (not Trix) — escape it,
                              then turn the author's line breaks into paragraph spacing. --}}
-                        <p class="mil-fs-18 mil-lh-160">{!! nl2br(e($service->text)) !!}</p>
+                        <p class="mil-fs-20 mil-lh-180 mil-m-1">{!! nl2br(e($service->text)) !!}</p>
                     </div>
                 </div>
             </div>
