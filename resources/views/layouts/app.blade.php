@@ -15,7 +15,7 @@
     <div class="mil-page-wrapper">
 
         @include('partials.header')
-        @include('partials.back-to-top')
+        @include('partials.call-widget')
 
         <div id="swupMain" class="transition-fade">
             @yield('content')

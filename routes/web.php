@@ -30,6 +30,7 @@ Route::view('/cookie-policy', 'pages.legal', ['title' => 'Cookie Policy'])->name
 // 5 submissions/minute/IP — enough for a genuine visitor (and a shared
 // office IP) while blocking a bot flooding the form.
 Route::post('/contact', [LeadController::class, 'store'])->name('contact.send')->middleware('throttle:5,1');
+Route::post('/callback', [LeadController::class, 'callback'])->name('callback')->middleware('throttle:5,1');
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
