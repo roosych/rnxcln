@@ -3927,7 +3927,7 @@ right side buttons
   opacity: 1;
   margin-bottom: 1rem;
 }
-.mil-right-buttons-frame .mil-right-buttons .mil-side-btn.mil-open-window:after {
+.mil-right-buttons-frame .mil-right-buttons .mil-side-btn.mil-call-btn:after {
   font-family: "Font Awesome 5 Pro";
   font-weight: 400;
   content: "\f095";
@@ -3935,62 +3935,62 @@ right side buttons
   -webkit-animation: phone-move 4s ease-in-out infinite;
           animation: phone-move 4s ease-in-out infinite;
 }
-.mil-right-buttons-frame .mil-right-buttons .mil-side-btn.mil-open-window.mil-active:after {
+.mil-right-buttons-frame .mil-right-buttons .mil-side-btn.mil-call-btn.mil-active:after {
   content: "\f00d";
   -webkit-animation: none;
           animation: none;
   font-weight: 100;
   font-size: 2.2rem;
 }
-.mil-right-buttons-frame .mil-order-call-window {
-  position: relative;
-  width: 70rem;
-  background-color: #fff;
-  -webkit-backdrop-filter: blur(3rem);
-          backdrop-filter: blur(3rem);
-  margin-right: 15px;
-  border-radius: 1rem;
-  border-bottom: solid 0.1rem white;
-  -webkit-box-shadow: 0 0.3rem 1rem rgba(24, 26, 31, 0.08);
-          box-shadow: 0 0.3rem 1rem rgba(24, 26, 31, 0.08);
-  opacity: 0;
-  -webkit-transform: scale(0.9);
-          transform: scale(0.9);
-  padding: 1.5rem;
-  pointer-events: none;
-  -webkit-transition: 0.4s cubic-bezier(0, 0, 0.3642, 1);
-  transition: 0.4s cubic-bezier(0, 0, 0.3642, 1);
-}
-.mil-right-buttons-frame .mil-order-call-window.mil-active {
+.mil-right-buttons-frame .mil-call-popover {
   pointer-events: all;
-  opacity: 1;
-  -webkit-transform: scale(1);
-          transform: scale(1);
+  position: relative;
+  margin-right: 1.5rem;
+  padding: 1.6rem 2rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  -webkit-box-shadow: 0 0.3rem 1.5rem rgba(24, 26, 31, 0.15);
+          box-shadow: 0 0.3rem 1.5rem rgba(24, 26, 31, 0.15);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  white-space: nowrap;
 }
-.mil-right-buttons-frame .mil-order-call-window .mil-ocw-content form {
-  padding: 1.5rem;
-}
-.mil-right-buttons-frame .mil-order-call-window .mil-ocw-content .mil-ocw-img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  -o-object-position: center;
-     object-position: center;
-}
-.mil-right-buttons-frame .mil-order-call-window:before {
+.mil-right-buttons-frame .mil-call-popover:after {
   content: "";
-  width: 0;
-  height: 0;
-  border-left: 1.8rem solid transparent;
-  border-right: 1.8rem solid transparent;
-  border-bottom: 1.8rem solid #fff;
-  /* Колір трикутника */
   position: absolute;
-  bottom: 3.8rem;
-  right: -1.8rem;
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+  right: -0.8rem;
+  bottom: 2.4rem;
+  border-top: 0.8rem solid transparent;
+  border-bottom: 0.8rem solid transparent;
+  border-left: 0.8rem solid #fff;
+}
+.mil-right-buttons-frame .mil-call-popover .mil-call-popover-label {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: #7a7f87;
+  margin-bottom: 0.4rem;
+}
+.mil-right-buttons-frame .mil-call-popover .mil-call-popover-number {
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #181a1f;
+  cursor: pointer;
+}
+.mil-right-buttons-frame .mil-call-popover .mil-call-popover-hint {
+  font-size: 1.2rem;
+  color: #a0a4ab;
+  margin-top: 0.4rem;
 }
 @media screen and (max-width: 992px) {
   .mil-right-buttons-frame {
@@ -4000,12 +4000,6 @@ right side buttons
   }
   .mil-right-buttons-frame.mil-on-bottom {
     bottom: 30rem;
-  }
-  .mil-right-buttons-frame .mil-order-call-window {
-    width: calc(100% - 15rem);
-  }
-  .mil-right-buttons-frame .mil-order-call-window .mil-ocw-content .mil-ocw-img {
-    display: none;
   }
 }
 
@@ -5311,4 +5305,57 @@ would add on top is set here.
   border-radius: .6rem;
   overflow-x: auto;
   font-size: 1.6rem;
+}
+
+/* -------------------------------------------
+
+mobile readability — the template scales the whole page down via the `html`
+font-size knob (9px -> 6px at <=992px), which keeps headings fine but leaves
+body copy around 9-11px. Bump only the body/small-text tiers back up on
+mobile; heading tiers (fs-24 and above) are left to the template's scaling.
+
+------------------------------------------- */
+@media (max-width: 992px) {
+  body {
+    font-size: 2.5rem;
+  }
+  .mil-fs-11, .mil-md-fs-11, .mil-lg-fs-11, .mil-sm-fs-11 {
+    font-size: 1.9rem;
+  }
+  .mil-fs-12, .mil-md-fs-12, .mil-lg-fs-12, .mil-sm-fs-12 {
+    font-size: 2rem;
+  }
+  .mil-fs-13, .mil-md-fs-13, .mil-lg-fs-13, .mil-sm-fs-13 {
+    font-size: 2.1rem;
+  }
+  .mil-fs-14, .mil-md-fs-14, .mil-lg-fs-14, .mil-sm-fs-14 {
+    font-size: 2.2rem;
+  }
+  .mil-fs-15, .mil-md-fs-15, .mil-lg-fs-15, .mil-sm-fs-15 {
+    font-size: 2.3rem;
+  }
+  .mil-fs-16, .mil-md-fs-16, .mil-lg-fs-16, .mil-sm-fs-16 {
+    font-size: 2.4rem;
+  }
+  .mil-fs-17, .mil-md-fs-17, .mil-lg-fs-17, .mil-sm-fs-17 {
+    font-size: 2.5rem;
+  }
+  .mil-fs-18, .mil-md-fs-18, .mil-lg-fs-18, .mil-sm-fs-18 {
+    font-size: 2.6rem;
+  }
+  .mil-fs-19, .mil-md-fs-19, .mil-lg-fs-19, .mil-sm-fs-19 {
+    font-size: 2.7rem;
+  }
+  .mil-fs-20, .mil-md-fs-20, .mil-lg-fs-20, .mil-sm-fs-20 {
+    font-size: 2.8rem;
+  }
+  .mil-fs-22, .mil-md-fs-22, .mil-lg-fs-22, .mil-sm-fs-22 {
+    font-size: 3rem;
+  }
+  .mil-up-text {
+    font-size: 2.1rem;
+  }
+  .mil-article-body pre {
+    font-size: 2.4rem;
+  }
 }

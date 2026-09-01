@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="{{ asset('css/plugins/fancybox.css') }}">
 <link rel="stylesheet" href="{{ asset('css/plugins/fontawesome.css') }}">
 <link rel="stylesheet" href="{{ asset('css/plugins/flatpickr.css') }}">
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ filemtime(public_path('css/style.css')) }}">
 
 @php
     // The per-service page (services.show) has no PageSeo row — its title/

@@ -107,8 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     ------------------------------------------- */
     const milRightButtonsFrame = document.querySelector('.mil-right-buttons-frame');
-    const milOpenWindow = document.querySelector('.mil-open-window');
-    const milOrderCallWindow = document.querySelector('.mil-order-call-window');
     const milBackToTop = document.querySelector('.mil-back-to-top');
 
     if (milRightButtonsFrame && milBackToTop) {
@@ -131,11 +129,61 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    if (milOpenWindow && milOrderCallWindow) {
-        milOpenWindow.addEventListener('click', function () {
-            this.classList.toggle('mil-active');
-            milOrderCallWindow.classList.toggle('mil-active');
-        });
+    /* -------------------------------------------
+
+    call button — tel: link on touch devices; on desktop (no dialer) clicking
+    it opens a popover with the number instead of failing silently.
+
+    ------------------------------------------- */
+    const milCallBtn = document.querySelector('.mil-call-btn');
+    const milCallPopover = document.querySelector('.mil-call-popover');
+
+    if (milCallBtn && milCallPopover) {
+        const canDial = window.matchMedia('(hover: none)').matches;
+        const number = milCallPopover.querySelector('.mil-call-popover-number');
+        const hint = milCallPopover.querySelector('.mil-call-popover-hint');
+        const hintText = hint ? hint.textContent : '';
+
+        const closePopover = function () {
+            milCallPopover.hidden = true;
+            milCallBtn.classList.remove('mil-active');
+        };
+
+        if (!canDial) {
+            milCallBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const opening = milCallPopover.hidden;
+                milCallPopover.hidden = !opening;
+                milCallBtn.classList.toggle('mil-active', opening);
+            });
+
+            if (number) {
+                number.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const value = number.dataset.phone || number.textContent.trim();
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(value).then(function () {
+                            if (hint) {
+                                hint.textContent = 'Copied!';
+                                setTimeout(function () { hint.textContent = hintText; }, 1500);
+                            }
+                        }).catch(function () {});
+                    }
+                });
+            }
+
+            document.addEventListener('click', function (e) {
+                if (!milCallPopover.hidden && !milCallPopover.contains(e.target) && !milCallBtn.contains(e.target)) {
+                    closePopover();
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !milCallPopover.hidden) {
+                    closePopover();
+                }
+            });
+        }
     }
 
     /* -------------------------------------------
