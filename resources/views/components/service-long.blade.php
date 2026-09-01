@@ -3,7 +3,7 @@
     'service',
 ])
 
-<div class="mil-service-card-long mil-mb-15">
+<a href="{{ route('services.show', $service) }}" class="mil-service-card-long mil-mb-15 mil-hover-bri-105">
     <div class="row mil-jcb">
 
         <div class="col-lg-4 mil-mb-15 mil-up">
@@ -11,7 +11,7 @@
                 <h2 class="mil-fs-30 mil-mb-30">{{ $service['title'] }}</h2>
                 <div class="mil-up-text mil-a-2 mil-mb-30">{{ $service['tagline'] }}</div>
                 <p class="mil-fs-18 mil-lh-160 mil-mb-30">{{ $service['text'] }}</p>
-                <a href="{{ route('services.show', $service) }}" class="mil-link mil-m-1 mil-icon-btn">Read more<i class="far fa-arrow-right mil-bg-a-1 mil-m-1"></i></a>
+                <span class="mil-link mil-m-1 mil-icon-btn">Read more<i class="far fa-arrow-right mil-bg-a-1 mil-m-1"></i></span>
             </div>
         </div>
 
@@ -28,4 +28,4 @@
         </div>
 
     </div>
-</div>
+</a>

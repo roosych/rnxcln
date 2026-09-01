@@ -3397,6 +3397,9 @@ services
   background-color: #8cd3f3 !important;
 }
 
+.mil-service-card-long {
+  display: block;
+}
 .mil-service-card-long .mil-img-frame {
   width: 100%;
   height: 100%;
