@@ -60,6 +60,22 @@
 
     @php $n = 0; @endphp
 
+    @if (filled($service->text))
+        <div class="mil-p-0-15">
+            <div class="container">
+                @php $n++; @endphp
+                <x-section-title :number="$n" title="About this service" />
+                <div class="row mil-mb-30">
+                    <div class="col-lg-8 mil-up">
+                        {{-- Plain-text field from the admin form (not Trix) — escape it,
+                             then turn the author's line breaks into paragraph spacing. --}}
+                        <p class="mil-fs-18 mil-lh-160">{!! nl2br(e($service->text)) !!}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @if ($service->steps->isNotEmpty())
         <div class="mil-p-0-15">
             <div class="container">
