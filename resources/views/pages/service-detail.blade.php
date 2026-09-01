@@ -132,6 +132,25 @@
         </div>
     @endif
 
+    @if ($articles->isNotEmpty())
+        <div class="mil-p-0-15">
+            <div class="container">
+                @php $n++; @endphp
+                <x-section-title :number="$n" title="From our blog" />
+                <div class="row">
+                    @foreach ($articles as $article)
+                        <div class="col-12 mil-mb-15 mil-up">
+                            <x-blog-card :post="$article" type="wide" />
+                        </div>
+                    @endforeach
+                </div>
+                <div class="mil-up">
+                    <a href="{{ route('blog.category', $service) }}" class="mil-link mil-m-1 mil-reverse">More articles about {{ $heroTitle }}<i class="far fa-arrow-right mil-bg-a-2 mil-m-4" style="padding: .2rem 0 0 .2rem"></i></a>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <x-cta headline="Not sure if this is the right fit? Send us a photo and we'll tell you." />
 
     @if ($faqItems->isNotEmpty())

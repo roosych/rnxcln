@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use App\Models\PageSeo;
 use App\Models\Service;
 use Illuminate\Http\Response;
@@ -25,6 +26,11 @@ class SitemapController extends Controller
             $urls = $urls->merge(Service::where('is_active', true)->get()->map(fn (Service $service) => [
                 'loc' => route('services.show', $service),
                 'lastmod' => $service->updated_at->toAtomString(),
+            ]));
+
+            $urls = $urls->merge(BlogPost::published()->get()->map(fn (BlogPost $post) => [
+                'loc' => route('blog.show', $post),
+                'lastmod' => $post->updated_at->toAtomString(),
             ]));
 
             $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n";

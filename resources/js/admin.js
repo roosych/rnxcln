@@ -1,5 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import Sortable from 'sortablejs';
+import 'trix';
 
 // Exposed for page-local widgets that need to reach these from a plain
 // inline <script> (e.g. the service form's tab-switching and reorderable

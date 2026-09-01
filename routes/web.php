@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SitemapController;
@@ -18,6 +19,11 @@ Route::view('/about', 'pages.about')->name('about');
 Route::view('/services', 'pages.services')->name('services');
 Route::redirect('/services/carpet-upholstery', '/services/carpets-area-rugs', 301);
 Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/category/{service:slug}', [BlogController::class, 'category'])->name('blog.category');
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+
 Route::view('/contact', 'pages.contact')->name('contact');
 
 // Footer legal links — placeholder content until real copy is written in,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use App\Models\FaqItem;
 use App\Models\Service;
 use Illuminate\Support\Collection;
@@ -17,6 +18,12 @@ class ServiceController extends Controller
             'service' => $service,
             'faqItems' => FaqItem::orderBy('sort_order')->get(),
             'otherServices' => $this->otherServices($service),
+            'articles' => BlogPost::published()
+                ->whereHas('categories', fn ($q) => $q->whereKey($service->id))
+                ->with('categories')
+                ->latest('published_at')
+                ->take(3)
+                ->get(),
         ]);
     }
 

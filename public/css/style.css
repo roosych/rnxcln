@@ -5241,3 +5241,74 @@ before / after slider
     border-width: .3rem;
   }
 }
+
+/* -------------------------------------------
+
+blog article body (Trix-authored HTML — plain h1/p/blockquote/ul tags, none
+of this stylesheet's own classes — see pages/blog/show.blade.php). Values
+here are lifted straight from how publication.html hand-classes the same
+elements (mil-fs-24/mil-mb-30 subheadings, mil-fs-18/mil-mb-60/mil-lh-160
+paragraphs, mil-fs-24/mil-bg-a-2/mil-m-4/mil-lh-160 blockquote), not
+invented — the global `h1..h6` and `blockquote` rules above already supply
+color/weight/line-height/padding/border-radius, so only what those classes
+would add on top is set here.
+
+------------------------------------------- */
+.mil-article-body h1,
+.mil-article-body h2,
+.mil-article-body h3,
+.mil-article-body h4,
+.mil-article-body h5,
+.mil-article-body h6 {
+  font-size: 2.4rem;
+  margin: 0 0 3rem;
+}
+.mil-article-body p {
+  margin: 0 0 6rem;
+}
+.mil-article-body p:last-child {
+  margin-bottom: 0;
+}
+.mil-article-body blockquote {
+  margin: 0 0 6rem;
+  font-size: 2.4rem;
+  line-height: 160%;
+  font-style: italic;
+  color: #fff;
+  background-color: #5A8CF5;
+}
+.mil-article-body blockquote:last-child {
+  margin-bottom: 0;
+}
+.mil-article-body ul,
+.mil-article-body ol {
+  margin: 0 0 6rem;
+  padding-left: 2rem;
+}
+.mil-article-body ul {
+  list-style: disc;
+}
+.mil-article-body ol {
+  list-style: decimal;
+}
+.mil-article-body li {
+  margin-bottom: 1rem;
+}
+.mil-article-body li:last-child {
+  margin-bottom: 0;
+}
+.mil-article-body a {
+  color: #5A8CF5;
+  text-decoration: underline;
+}
+.mil-article-body strong {
+  font-weight: 700;
+}
+.mil-article-body pre {
+  margin: 0 0 6rem;
+  padding: 2rem;
+  background-color: #f3f4f6;
+  border-radius: .6rem;
+  overflow-x: auto;
+  font-size: 1.6rem;
+}

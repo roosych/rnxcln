@@ -30,8 +30,21 @@
     // assigned, so a `$service` left over from an unrelated @foreach
     // elsewhere on the page (e.g. home.blade.php's featured-services loop)
     // would otherwise silently leak in and give the page the wrong title.
+    $routeName = request()->route()?->getName() ?? '';
+    // A failed implicit route-model binding (e.g. a service/post slug that
+    // doesn't exist, on its way to a 404) leaves the raw string parameter in
+    // place rather than null — guard both so a 404 page doesn't crash trying
+    // to read ->title off a string instead of falling through to the
+    // site-name-only title.
     $service = request()->route('service');
-    $seo = \App\Models\PageSeo::forRoute(request()->route()?->getName() ?? '');
+    $service = $service instanceof \App\Models\Service ? $service : null;
+    // A blog category page binds the same {service:slug} route param as
+    // services.show, so it's disambiguated by route name below rather than
+    // being mistaken for a service's own page.
+    $isBlogCategory = $routeName === 'blog.category';
+    $post = request()->route('post');
+    $post = $post instanceof \App\Models\BlogPost ? $post : null;
+    $seo = \App\Models\PageSeo::forRoute($routeName);
     // Some service titles carry their own <br class="mil-sm-hidden"> for
     // wrap control elsewhere (see e.g. config/catalog.php's home-office
     // entries) — strip that HTML out before it lands in <title>/og:title,
@@ -39,19 +52,29 @@
     // Null (not the site name) when there's genuinely no page-specific title
     // to show — e.g. the 404 page, which has no Service and no PageSeo row —
     // so <title> doesn't end up showing the site name twice.
-    $pageTitle = $service?->meta_title ?: ($service ? trim(preg_replace('#\s+#', ' ', strip_tags($service->title))) : null) ?: $seo?->meta_title;
+    $pageTitle = $post?->meta_title ?: $post?->title
+        ?: ($isBlogCategory && $service ? trim(preg_replace('#\s+#', ' ', strip_tags($service->title))).' — Blog' : null)
+        ?: (! $isBlogCategory && $service ? trim(preg_replace('#\s+#', ' ', strip_tags($service->title))) : null)
+        ?: $seo?->meta_title;
     $metaTitle = $pageTitle ?? setting('site.name');
-    $metaDescription = $service?->meta_description ?: ($seo?->meta_description ?? '');
+    $metaDescription = $post?->meta_description ?: $post?->excerpt
+        ?: ($isBlogCategory ? '' : $service?->meta_description)
+        ?: ($seo?->meta_description ?? '');
     $canonical = $seo?->canonical_url ?? url()->current();
-    // Priority: an explicitly uploaded per-page OG image, then a service's
-    // own dedicated OG image (services.show has no PageSeo row so $seo is
-    // always null there), then its regular content photo (not OG-sized,
-    // may crop oddly in a share preview), then the site logo as a last resort.
+    // Priority: an explicitly uploaded per-page OG image, then a post's/
+    // service's own dedicated OG image (these routes have no PageSeo row so
+    // $seo is always null there), then its regular content photo (not
+    // OG-sized, may crop oddly in a share preview), then the site logo as a
+    // last resort.
     $ogImage = $seo?->og_image
         ? asset('storage/'.$seo->og_image)
-        : ($service?->og_image
-            ? $service->ogImageUrl()
-            : ($service?->image ? $service->imageUrl() : asset('img/ui/logo2.png')));
+        : ($post?->og_image
+            ? $post->ogImageUrl()
+            : ($post?->cover_image
+                ? $post->coverImageUrl()
+                : ($service?->og_image
+                    ? $service->ogImageUrl()
+                    : ($service?->image ? $service->imageUrl() : asset('img/ui/logo2.png')))));
 @endphp
 
 <title>{{ $pageTitle ? $pageTitle.' — '.setting('site.name') : setting('site.name') }}</title>

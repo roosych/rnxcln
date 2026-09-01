@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\FacebookReviewSourceController;
 use App\Http\Controllers\Admin\FaqItemController;
 use App\Http\Controllers\Admin\GoogleReviewSourceController;
@@ -34,6 +35,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('services/reorder', [ServiceController::class, 'reorder'])->name('services.reorder');
     Route::put('services/folders', [ServiceController::class, 'updateFolderNames'])->name('services.folders.update');
     Route::resource('services', ServiceController::class)->except(['show']);
+
+    Route::resource('blog-posts', BlogPostController::class)->except(['show'])->parameters(['blog-posts' => 'blogPost']);
 
     // 'create' is dropped from all four resources below: adding a new one
     // happens from a modal on the index page instead of its own page, so

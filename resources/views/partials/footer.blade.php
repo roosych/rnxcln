@@ -4,6 +4,7 @@
     $footerNav = [
         ['label' => 'Home', 'url' => route('home')],
         ['label' => 'Services', 'url' => route('services')],
+        ['label' => 'Blog', 'url' => route('blog.index')],
         ['label' => 'Contact', 'url' => route('contact')],
     ];
     // /services is one flat list now (no more folder-specific anchors to link

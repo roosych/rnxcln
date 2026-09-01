@@ -35,6 +35,9 @@
             <li class="{{ request()->routeIs('admin.services*') ? 'active' : '' }}">
                 <a href="{{ route('admin.services.index') }}"><i class="fas fa-broom"></i> Services</a>
             </li>
+            <li class="{{ request()->routeIs('admin.blog-posts*') ? 'active' : '' }}">
+                <a href="{{ route('admin.blog-posts.index') }}"><i class="fas fa-newspaper"></i> Blog posts</a>
+            </li>
             <li class="{{ request()->routeIs('admin.faq*') ? 'active' : '' }}">
                 <a href="{{ route('admin.faq.index') }}"><i class="fas fa-question-circle"></i> FAQ</a>
             </li>

@@ -4,6 +4,7 @@
         ['label' => 'Home', 'route' => 'home'],
         ['label' => 'About', 'route' => 'about'],
         ['label' => 'Services', 'route' => 'services'],
+        ['label' => 'Blog', 'route' => 'blog.index'],
         ['label' => 'Contact', 'route' => 'contact'],
     ];
 @endphp
@@ -38,7 +39,8 @@
                                 : collect();
                             $hasChildren = $children->isNotEmpty();
                             $active = request()->routeIs($item['route'])
-                                || ($item['route'] === 'services' && request()->routeIs('services.show'));
+                                || ($item['route'] === 'services' && request()->routeIs('services.show'))
+                                || ($item['route'] === 'blog.index' && request()->routeIs('blog.*'));
                         @endphp
                         <li @class(['mil-has-children' => $hasChildren, 'mil-current' => $active])>
                             {{-- No href when it has a dropdown — it's not a page link, the
